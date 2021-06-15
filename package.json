@@ -1,0 +1,25 @@
+{
+  "name": "@esbiya/base64-wasm",
+  "version": "1.0.0",
+  "description": "a base64 lib for customize table",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "node ./tests/demo.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Esbiya/base64-wasm.git"
+  },
+  "keywords": [
+    "base64"
+  ],
+  "author": "esbiya",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Esbiya/base64-wasm/issues"
+  },
+  "homepage": "https://github.com/Esbiya/base64-wasm#readme"
+}

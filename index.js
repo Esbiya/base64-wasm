@@ -1,7 +1,5 @@
 const Module = require('./build/base64.js');
 
-Module.loadFinished = false
-
 Module.onRuntimeInitialized = function () {
     const mallocByteBuffer = len => {
         const ptr = Module._malloc(len)
@@ -69,9 +67,10 @@ Module.onRuntimeInitialized = function () {
 
         return decodeString
     }
-    Module.loadFinished = true
 }
 
-module.exports = {
-    base64: Module
-}
+module.exports = new Promise(e => {
+    Module.postRun = t => {
+        return e(Module)
+    }
+})

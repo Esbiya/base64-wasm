@@ -20,7 +20,7 @@
 
 ## Usage
 
-```
+```javascript
 (async () => {
     let base64 = await require("@esbiya/base64-wasm")
     const atob = require('atob')
@@ -36,6 +36,12 @@
     console.log(plainText)
     console.log(plainText == originString)
 })()
+```
+
+## Compile
+
+```shell
+em++ -O3 -s WASM=1 -s EXPORTED_FUNCTIONS="['_free', '_malloc']" --no-entry -o ./build/base64.js ./src/base64.cc
 ```
 
 ## Author

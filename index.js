@@ -73,7 +73,7 @@ Module.onRuntimeInitialized = function () {
 }
 
 module.exports = new Promise(e => {
-    Module.postRun = t => {
+    Module.postRun = _ => {
         return e(Module)
     }
 })

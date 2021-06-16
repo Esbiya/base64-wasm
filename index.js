@@ -7,7 +7,14 @@ Module.onRuntimeInitialized = function () {
         return heapBytes
     }
 
-    const Uint8ArrayToString = (arr, len) => {
+    const allocateUtf8String = str => {
+        let s1 = stringToUint8Array(str)
+        let b1 = mallocByteBuffer(s1.byteLength)
+        b1.set(s1)
+        return b1
+    }
+
+    const uint8ArrayToString = (arr, len) => {
         return len ?
             Array.from(arr).slice(0, len).map(v => String.fromCharCode(v)).join('') :
             Array.from(arr).map(v => String.fromCharCode(v)).join('')
@@ -23,12 +30,8 @@ Module.onRuntimeInitialized = function () {
         return tmpUint8Array
     }
 
-    const allocateUtf8String = str => {
-        let s1 = stringToUint8Array(str)
-        let b1 = mallocByteBuffer(s1.byteLength)
-        b1.set(s1)
-        return b1
-    }
+    Module.uint8ArrayToString = uint8ArrayToString
+    Module.stringToUint8Array = stringToUint8Array
 
     Module.encode = function (originString, _base64Map = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/") {
         const originLength = originString.length
@@ -40,7 +43,7 @@ Module.onRuntimeInitialized = function () {
         let encodeLength = Module._b64_encode(
             plainText.byteOffset, originLength, base64Map.byteOffset, base64Map.byteLength, encodeResult.byteOffset
         )
-        let encodeString = Uint8ArrayToString(encodeResult, encodeLength)
+        let encodeString = uint8ArrayToString(encodeResult, encodeLength)
 
         Module._free(plainText)
         Module._free(base64Map)
@@ -59,7 +62,7 @@ Module.onRuntimeInitialized = function () {
         let decodeLength = Module._b64_decode(
             cipherText.byteOffset, originLength, base64Map.byteOffset, base64Map.byteLength, decodeResult.byteOffset
         )
-        let decodeString = Uint8ArrayToString(decodeResult, decodeLength)
+        let decodeString = uint8ArrayToString(decodeResult, decodeLength)
 
         Module._free(cipherText)
         Module._free(base64Map)
